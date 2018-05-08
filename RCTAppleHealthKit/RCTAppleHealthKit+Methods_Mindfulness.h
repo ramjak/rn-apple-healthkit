@@ -9,5 +9,6 @@
 @interface RCTAppleHealthKit (Methods_Mindfulness)
 
 - (void)mindfulness_saveMindfulSession:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
+- (void)mindfulness_getMindfulSessionSamples:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 
 @end
