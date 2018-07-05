@@ -190,6 +190,26 @@
     }];
 }
 
+- (void)fitness_saveDistanceCyclingOnDay:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
+{
+    double distanceCycling = [RCTAppleHealthKit doubleValueFromOptions:input];
+    NSDate *sampleDate = [RCTAppleHealthKit dateFromOptionsDefaultNow:input];
+    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit meterUnit]];
+
+    HKQuantity *distanceCyclingQuantity = [HKQuantity quantityWithUnit:unit doubleValue:distanceCycling];
+    HKQuantityType *distanceCyclingType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierDistanceCycling];
+    HKQuantitySample *distanceCyclingSample = [HKQuantitySample quantitySampleWithType:distanceCyclingType quantity:distanceCyclingQuantity startDate:sampleDate endDate:sampleDate];
+
+    [self.healthStore saveObject:distanceCyclingSample withCompletion:^(BOOL success, NSError *error) {
+        if (!success) {
+            NSLog(@"error saving the distanceCycling sample: %@", error);
+            callback(@[RCTMakeError(@"error saving the distanceCycling sample", error, nil)]);
+            return;
+        }
+        callback(@[[NSNull null], @(distanceCycling)]);
+    }];
+}
+
 
 - (void)fitness_getFlightsClimbedOnDay:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
 {
