@@ -177,6 +177,11 @@ RCT_EXPORT_METHOD(saveMindfulSession:(NSDictionary *)input callback:(RCTResponse
     [self mindfulness_saveMindfulSession:input callback:callback];
 }
 
+RCT_EXPORT_METHOD(getAppleExerciseTime:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
+{
+    [self activity_getAppleExerciseTime:input callback:callback];
+}
+
 
 - (void)isHealthKitAvailable:(RCTResponseSenderBlock)callback
 {
