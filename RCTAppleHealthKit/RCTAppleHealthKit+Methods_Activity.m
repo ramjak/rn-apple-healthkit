@@ -75,7 +75,7 @@
     HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit minuteUnit]];
 
     HKQuantity *exerciseTimeQuantity = [HKQuantity quantityWithUnit:unit doubleValue:exerciseTime];
-    HKQuantityType *exerciseTimeType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierExerciseTime];
+    HKQuantityType *exerciseTimeType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierAppleExerciseTime];
     HKQuantitySample *exerciseTimeSample = [HKQuantitySample quantitySampleWithType:exerciseTimeType quantity:exerciseTimeQuantity startDate:sampleDate endDate:sampleDate];
 
     [self.healthStore saveObject:exerciseTimeSample withCompletion:^(BOOL success, NSError *error) {
