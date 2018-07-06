@@ -40,6 +40,25 @@
     }];
 }
 
+- (void)vitals_saveHeartRateSamples:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
+{
+    double heartRate = [RCTAppleHealthKit doubleValueFromOptions:input];
+    NSDate *sampleDate = [RCTAppleHealthKit dateFromOptionsDefaultNow:input];
+    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit minuteUnit]];
+
+    HKQuantity *heartRateQuantity = [HKQuantity quantityWithUnit:unit doubleValue:heartRate];
+    HKQuantityType *heartRateType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
+    HKQuantitySample *heartRateSample = [HKQuantitySample quantitySampleWithType:heartRateType quantity:heartRateQuantity startDate:sampleDate endDate:sampleDate];
+
+    [self.healthStore saveObject:heartRateSample withCompletion:^(BOOL success, NSError *error) {
+        if (!success) {
+            NSLog(@"error saving the heartRate sample: %@", error);
+            callback(@[RCTMakeError(@"error saving the heartRate sample", error, nil)]);
+            return;
+        }
+        callback(@[[NSNull null], @(heartRate)]);
+    }];
+}
 
 - (void)vitals_getBodyTemperatureSamples:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
 {
