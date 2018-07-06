@@ -152,6 +152,11 @@ RCT_EXPORT_METHOD(getActiveEnergyBurned:(NSDictionary *)input callback:(RCTRespo
    [self activity_getActiveEnergyBurned:input callback:callback];
 }
 
+RCT_EXPORT_METHOD(saveActiveEnergyBurned:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
+{
+   [self activity_saveActiveEnergyBurned:input callback:callback];
+}
+
 RCT_EXPORT_METHOD(getBodyTemperatureSamples:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
 {
     [self vitals_getBodyTemperatureSamples:input callback:callback];

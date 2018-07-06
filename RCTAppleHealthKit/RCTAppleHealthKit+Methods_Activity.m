@@ -42,6 +42,26 @@
                           }];
 }
 
+- (void)activity_saveActiveEnergyBurned:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
+{
+    double activeEnergyBurned = [RCTAppleHealthKit doubleValueFromOptions:input];
+    NSDate *sampleDate = [RCTAppleHealthKit dateFromOptionsDefaultNow:input];
+    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit kilocalorieUnit]];
+
+    HKQuantity *activeEnergyBurnedQuantity = [HKQuantity quantityWithUnit:unit doubleValue:activeEnergyBurned];
+    HKQuantityType *activeEnergyBurnedType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierActiveEnergyBurned];
+    HKQuantitySample *activeEnergyBurnedSample = [HKQuantitySample quantitySampleWithType:activeEnergyBurnedType quantity:activeEnergyBurnedQuantity startDate:sampleDate endDate:sampleDate];
+
+    [self.healthStore saveObject:activeEnergyBurnedSample withCompletion:^(BOOL success, NSError *error) {
+        if (!success) {
+            NSLog(@"error saving the activeEnergyBurned sample: %@", error);
+            callback(@[RCTMakeError(@"error saving the activeEnergyBurned sample", error, nil)]);
+            return;
+        }
+        callback(@[[NSNull null], @(activeEnergyBurned)]);
+    }];
+}
+
 - (void)activity_getAppleExerciseTime:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
 {
     HKQuantityType *activeEnergyType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierAppleExerciseTime];
