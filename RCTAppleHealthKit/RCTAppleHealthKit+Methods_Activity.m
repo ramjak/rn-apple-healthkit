@@ -68,5 +68,24 @@
                           }];
 }
 
+- (void)activity_saveAppleExerciseTime:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
+{
+    double exerciseTime = [RCTAppleHealthKit doubleValueFromOptions:input];
+    NSDate *sampleDate = [RCTAppleHealthKit dateFromOptionsDefaultNow:input];
+    HKUnit *unit = [RCTAppleHealthKit hkUnitFromOptions:input key:@"unit" withDefault:[HKUnit minuteUnit]];
+
+    HKQuantity *exerciseTimeQuantity = [HKQuantity quantityWithUnit:unit doubleValue:exerciseTime];
+    HKQuantityType *exerciseTimeType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierExerciseTime];
+    HKQuantitySample *exerciseTimeSample = [HKQuantitySample quantitySampleWithType:exerciseTimeType quantity:exerciseTimeQuantity startDate:sampleDate endDate:sampleDate];
+
+    [self.healthStore saveObject:exerciseTimeSample withCompletion:^(BOOL success, NSError *error) {
+        if (!success) {
+            NSLog(@"error saving the exerciseTime sample: %@", error);
+            callback(@[RCTMakeError(@"error saving the exerciseTime sample", error, nil)]);
+            return;
+        }
+        callback(@[[NSNull null], @(exerciseTime)]);
+    }];
+}
 
 @end
