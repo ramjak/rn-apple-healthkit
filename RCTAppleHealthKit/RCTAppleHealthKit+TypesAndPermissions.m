@@ -16,6 +16,7 @@
 
 - (NSDictionary *)readPermsDict {
     NSDictionary *readPerms = @{
+        @"Workout": [HKWorkoutType workoutType],
         // Characteristic Identifiers
         @"DateOfBirth" : [HKObjectType characteristicTypeForIdentifier:HKCharacteristicTypeIdentifierDateOfBirth],
         @"BiologicalSex" : [HKObjectType characteristicTypeForIdentifier:HKCharacteristicTypeIdentifierBiologicalSex],

@@ -13,5 +13,6 @@
 - (void)activity_getAppleExerciseTime:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 - (void)activity_saveAppleExerciseTime:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 - (void)activity_saveActiveEnergyBurned:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
+- (void)activity_getWorkout:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 
 @end
